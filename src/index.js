@@ -151,14 +151,17 @@ const directives = match('DirectiveSet')`
   ${directive}*
 `;
 
-const field = match('Field', x => ({
-  kind: x.tag,
-  alias: x[1].kind === 'Name' ? x.shift() : undefined,
-  name: x.shift(),
-  arguments: [...x.shift()],
-  directives: [...x.shift()],
-  selectionSet: x.shift(),
-}))`
+const field = match('Field', x => {
+  let i = 0;
+  return {
+    kind: x.tag,
+    alias: x[1].kind === 'Name' ? x[i++] : undefined,
+    name: x[i++],
+    arguments: [...x[i++]],
+    directives: [...x[i++]],
+    selectionSet: x[i++],
+  };
+})`
   ${name}
   (?: ${ignored})?
   ((?: ${/:/} ${ignored}?) ${name})?
@@ -275,14 +278,17 @@ const fragmentDefinition = match('FragmentDefinition', x => ({
   ${selectionSet}
 `;
 
-const operationDefinition = match('OperationDefinition', x => ({
-  kind: x.tag,
-  operation: x.shift(),
-  name: x.length === 4 ? x.shift() : undefined,
-  variableDefinitions: [...(x[0].tag === 'VariableDefinitionSet' ? x.shift() : null)],
-  directives: [...x.shift()],
-  selectionSet: x.shift(),
-}))`
+const operationDefinition = match('OperationDefinition', x => {
+  let i = 1;
+  return {
+    kind: x.tag,
+    operation: x[0],
+    name: x.length === 5 ? x[i++] : undefined,
+    variableDefinitions: [...(x[i].tag === 'VariableDefinitionSet' ? x[i++] : null)],
+    directives: [...x[i++]],
+    selectionSet: x[i],
+  };
+})`
   (?: ${ignored})?
   ${/query|mutation|subscription/}
   ((?: ${ignored}) ${name})?
