@@ -8,9 +8,7 @@ import match, { parse as makeParser } from 'reghex';
 
 // 2.1.7: Includes commas, and line comments
 const ignored = match('ignored')`
-  (
-    ${/[\s,]+/} | (${/#[^\n\r]+/})
-  )*
+  ${/([\s,]|#[^\n\r]+)+/}
 `;
 
 // 2.1.9: Limited to ASCII character set, so regex shortcodes are fine
