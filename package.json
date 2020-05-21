@@ -1,0 +1,25 @@
+{
+  "name": "graphql-parse",
+  "description": "A tiny spec-compliant reimplementation of the GraphQL query language parser",
+  "version": "0.1.0",
+  "main": "dist/graphql-parse.js",
+  "module": "dist/graphql-parse.esm.js",
+  "author": "Phil Pluckthun <phil@kitten.sh>",
+  "license": "MIT",
+  "repository": "https://github.com/kitten/graphql-parse",
+  "bugs": {
+    "url": "https://github.com/kitten/graphql-parse/issues"
+  },
+  "scripts": {
+    "build": "microbundle build -f es,cjs -o dist"
+  },
+  "babel": {
+    "plugins": [
+      "reghex/babel"
+    ]
+  },
+  "devDependencies": {
+    "microbundle": "^0.12.0",
+    "reghex": "^1.0.0"
+  }
+}
