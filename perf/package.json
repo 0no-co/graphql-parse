@@ -1,0 +1,16 @@
+{
+  "name": "@graphql-parse/perf",
+  "private": true,
+  "version": "1.0.0",
+  "main": "suite.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "benchr suite.js"
+  },
+  "devDependencies": {
+    "benchr": "^4.3.0"
+  },
+  "dependencies": {
+    "graphql": "^15.0.0"
+  }
+}
