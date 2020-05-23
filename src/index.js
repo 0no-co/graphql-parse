@@ -46,7 +46,6 @@ const enum_ = match('EnumValue', x => ({
   kind: x.tag,
   value: x[0].value
 }))`
-  (?! ${/true|false|null/})
   ${name}
 `;
 
@@ -217,7 +216,6 @@ const fragmentSpread = match('FragmentSpread', x => ({
   directives: x[1]
 }))`
   (?: ${/\.\.\./} ${ignored}?)
-  (?! ${/on/})
   ${name}
   (?: ${ignored})?
   ${directives}
@@ -270,7 +268,6 @@ const fragmentDefinition = match('FragmentDefinition', x => ({
   selectionSet: x[3],
 }))`
   (?: ${/fragment/} ${ignored})
-  (?! ${/on/})
   ${name}
   (?: ${ignored})
   ${typeCondition}
