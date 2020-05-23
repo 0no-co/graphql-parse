@@ -35,7 +35,6 @@ const plugins = [
     compilation_level: 'SIMPLE_OPTIMIZATIONS',
   }),
   terser({
-    sourcemap: true,
     warnings: true,
     ecma: 5,
     keep_fnames: true,
