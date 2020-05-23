@@ -73,7 +73,7 @@ const string = match('StringValue', x => ({
 
 const list = match('ListValue', x => ({
   kind: x.tag,
-  values: [...x]
+  values: x
 }))`
   (?: ${/\[/} ${ignored}?)
   ${value}*
@@ -93,7 +93,7 @@ const objectField = match('ObjectField', x => ({
 
 const object = match('ObjectValue', x => ({
   kind: x.tag,
-  fields: [...x],
+  fields: x,
 }))`
   (?: ${/{/} ${ignored}?)
   ${objectField}*
@@ -136,7 +136,7 @@ const args = match('ArgumentSet')`
 const directive = match('Directive', x => ({
   kind: x.tag,
   name: x[0],
-  arguments: [...x[1]]
+  arguments: x[1]
 }))`
   (?: ${/@/}) ${name}
   (?: ${ignored})?
@@ -155,8 +155,8 @@ const field = match('Field', x => {
     kind: x.tag,
     alias: x[1].kind === 'Name' ? x[i++] : undefined,
     name: x[i++],
-    arguments: [...x[i++]],
-    directives: [...x[i++]],
+    arguments: x[i++],
+    directives: x[i++],
     selectionSet: x[i++],
   };
 })`
@@ -202,10 +202,10 @@ const typeCondition = match('TypeCondition', x => ({
 const inlineFragment = match('InlineFragment', x => ({
   kind: x.tag,
   typeCondition: x[0],
-  directives: [...x[1]],
+  directives: x[1],
   selectionSet: x[2]
 }))`
-  (?: ${/[.]{3,3}/} ${ignored}?)
+  (?: ${/\.\.\./} ${ignored}?)
   ${typeCondition}
   ${directives}
   ${selectionSet}
@@ -214,9 +214,10 @@ const inlineFragment = match('InlineFragment', x => ({
 const fragmentSpread = match('FragmentSpread', x => ({
   kind: x.tag,
   name: x[0],
-  directives: [...x[1]]
+  directives: x[1]
 }))`
-  (?: ${/[.]{3,3}/} ${ignored}?)
+  (?: ${/\.\.\./} ${ignored}?)
+  (?! ${/on/})
   ${name}
   (?: ${ignored})?
   ${directives}
@@ -224,7 +225,7 @@ const fragmentSpread = match('FragmentSpread', x => ({
 
 const selectionSet = match('SelectionSet', x => ({
   kind: x.tag,
-  selections: [...x],
+  selections:x,
 }))`
   (?: ${/{/} ${ignored}?)
   (
@@ -245,7 +246,7 @@ const varDefinition = match('VariableDefinition', x => ({
   variable: x[0],
   type: x[1],
   defaultValue: !x[2].tag ? x[2] : undefined,
-  directives: [...(x[2].tag ? x[2] : x[3])],
+  directives: x[2].tag ? x[2] : x[3],
 }))`
   ${variable}
   (?: ${ignored}? ${/:/} ${ignored}?)
@@ -265,10 +266,11 @@ const fragmentDefinition = match('FragmentDefinition', x => ({
   kind: x.tag,
   name: x[0],
   typeCondition: x[1],
-  directives: [...x[2]],
+  directives: x[2],
   selectionSet: x[3],
 }))`
   (?: ${/fragment/} ${ignored})
+  (?! ${/on/})
   ${name}
   (?: ${ignored})
   ${typeCondition}
@@ -282,8 +284,8 @@ const operationDefinition = match('OperationDefinition', x => {
     kind: x.tag,
     operation: x[0],
     name: x.length === 5 ? x[i++] : undefined,
-    variableDefinitions: [...(x[i].tag === 'VariableDefinitionSet' ? x[i++] : null)],
-    directives: [...x[i++]],
+    variableDefinitions: x[i].tag === 'VariableDefinitionSet' ? x[i++] : null,
+    directives: x[i++],
     selectionSet: x[i],
   };
 })`
@@ -310,7 +312,7 @@ const queryShorthand = match('OperationDefinition', x => ({
 
 const root = match('Document', x => (
   x.length
-    ? { kind: x.tag, definitions: [...x] }
+    ? { kind: x.tag, definitions: x }
     : undefined
 ))`
   ${queryShorthand}
