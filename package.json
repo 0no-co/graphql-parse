@@ -34,7 +34,6 @@
     "reghex": "^1.0.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.10.8",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-terser": "^6.0.1"
+    "rollup-plugin-babel": "^4.4.0"
   }
 }

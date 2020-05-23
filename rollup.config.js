@@ -1,7 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import buble from '@rollup/plugin-buble';
 import babel from 'rollup-plugin-babel';
-import { terser } from 'rollup-plugin-terser';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 
 const plugins = [
@@ -33,31 +32,6 @@ const plugins = [
   compiler({
     formatting: 'PRETTY_PRINT',
     compilation_level: 'SIMPLE_OPTIMIZATIONS',
-  }),
-  terser({
-    warnings: true,
-    ecma: 5,
-    keep_fnames: true,
-    ie8: false,
-    compress: {
-      pure_getters: true,
-      toplevel: true,
-      booleans_as_integers: false,
-      keep_fnames: true,
-      keep_fargs: true,
-      if_return: false,
-      ie8: false,
-      sequences: false,
-      loops: false,
-      conditionals: false,
-      join_vars: false,
-    },
-    mangle: false,
-    output: {
-      beautify: true,
-      braces: true,
-      indent_level: 2,
-    },
   }),
 ];
 
