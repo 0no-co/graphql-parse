@@ -1,7 +1,7 @@
 {
   "name": "graphql-parse",
   "description": "A tiny spec-compliant reimplementation of the GraphQL query language parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/graphql-parse-core",
   "module": "dist/graphql-parse-core.mjs",
   "author": "Phil Pluckthun <phil@kitten.sh>",
