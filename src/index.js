@@ -216,6 +216,7 @@ const fragmentSpread = match('FragmentSpread', x => ({
   directives: x[1]
 }))`
   (?: ${/\.\.\./} ${ignored}?)
+  (?! ${/on/})
   ${name}
   (?: ${ignored})?
   ${directives}
@@ -268,6 +269,7 @@ const fragmentDefinition = match('FragmentDefinition', x => ({
   selectionSet: x[3],
 }))`
   (?: ${/fragment/} ${ignored})
+  (?! ${/on/})
   ${name}
   (?: ${ignored})
   ${typeCondition}
